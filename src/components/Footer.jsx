@@ -1,0 +1,39 @@
+function Footer() {
+    return (
+        <>
+        <footer className="bg-dark-transparent">
+      <div className="container py-5">
+        <div className="row">
+          <div className="col-md-4">
+            
+            <h5 className="text-white">Your Feedback:</h5>
+
+            <form>
+              <div className="form-group">
+                <label htmlFor="emailInput" className="text-white">Email address</label>
+                <input type="email" className="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email" />
+                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div className="form-group">
+                <label htmlFor="feedbackInput" className="text-white">Feedback</label>
+                <textarea className="form-control" id="feedbackInput" rows="5" placeholder="Enter your feedback"></textarea>
+              </div>
+              <button type="submit" className="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div className="col-md-4">
+            <h5 className="mb-3 text-white">Supported by:</h5>
+            <ul className="list-unstyled">
+              <li><a href="https://www.mncvision.id" className="text-white">MNC</a></li>
+              <li><a href="https://hboasia.com" className="text-white">HBO ASIA</a></li>
+              <li><a href="https://www.rakuten.com/" className="text-white">RAKUTEN TV</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer> 
+          
+        </>
+    )  
+}
+export default Footer ;
