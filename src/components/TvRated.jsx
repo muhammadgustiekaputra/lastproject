@@ -1,10 +1,10 @@
-import { apiTmdb } from "../api/apiTmdb";
+import { apiFood } from "../api/apiFood";
 import { useState, useEffect } from "react";
 
 function TvRated() {
   const [filmTvRated, setFilmTvRated] = useState([]);
   async function getData() {
-    await apiTmdb
+    await apiFood
       .get("tv/top_rated")
       .then(async (response) => {
         const tvData = await Promise.all(response.data.results);

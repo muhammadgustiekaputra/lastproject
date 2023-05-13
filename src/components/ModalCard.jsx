@@ -1,50 +1,28 @@
-function ModalCard({ movie, i }) {
-  console.log(movie.id);
+import { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+
+function ModalCard({ food, test }) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => setShow(id);
+    if (test === "true" ) setShow(true)
   return (
     <>
-      <div className="modal fade" id={`modal${movie.id}`} tabIndex="-1" aria-labelledby={`modalLabel${movie.id}`} aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content bg-dark">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id={`modalLabel${movie.id}`} style={{ color: "white" }}>
-                {movie.original_title}
-              </h1>
-              <button type="tonton" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <div className="row">
-                <div className="col-md-6 col-12">
-                  <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} className="card-img-top" alt="movie" />
-                </div>
-                <div className="col-md-6 col-12">
-                  <p>
-                    <span style={{ color: "orange" }}>Overview: </span>
-                    <br />
-                    <span style={{ color: "white" }}>{movie.overview}</span>
-                  </p>
-                  <p>
-                    <span style={{ color: "orange" }}>Id: </span>
-                    <span style={{ color: "white" }}>{movie.id}</span>
-                  </p>
-                  <p>
-                    <span style={{ color: "orange" }}>Popularity: </span>
-                    <span style={{ color: "white" }}>{movie.popularity}</span>
-                  </p>
-                  <p>
-                    <span style={{ color: "orange" }}>Rating: </span>
-                    <span style={{ color: "white" }}>{movie.vote_average}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button type="tonton" className="btn btn-warning">
-                Watching
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{food.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={food.imageUrl} alt={`${food.name} poster`} />
+          <p>{food.description}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

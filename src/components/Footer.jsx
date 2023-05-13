@@ -1,8 +1,8 @@
 function Footer() {
     return (
         <>
-        <footer className="bg-dark-transparent">
-      <div className="container py-5">
+        <footer style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+      <div className="container">
         <div className="row">
           <div className="col-md-4">
             
@@ -24,8 +24,8 @@ function Footer() {
           <div className="col-md-4">
             <h5 className="mb-3 text-white">Supported by:</h5>
             <ul className="list-unstyled">
-              <li><a href="https://www.mncvision.id" className="text-white">MNC</a></li>
-              <li><a href="https://hboasia.com" className="text-white">HBO ASIA</a></li>
+              <li><a href="https://www.mncvision.id" className="text-white">MASTERCHEF ASIA</a></li>
+              <li><a href="https://hboasia.com" className="text-white">HBOTV</a></li>
               <li><a href="https://www.rakuten.com/" className="text-white">RAKUTEN TV</a></li>
             </ul>
           </div>

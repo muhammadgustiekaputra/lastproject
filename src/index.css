@@ -1,39 +1,52 @@
 body {
-    background-color:rgb(1, 12, 29);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
+  background: url(./assets/bg/backgroundHD.jpeg.jpg);
+  background-size: fit;
+}
 
-  .video-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-  
-  }
+.card {
+  margin-bottom: 20px;
+}
 
-  .video-container video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+.card-img-top {
+  transition: transform 0.2s ease-in-out;
+}
 
-  .small-img {
-    width: 200px;
-    height: 200px;
-  }
-  .card-img-top {
-    transition: transform 0.2s ease-in-out;
-  }
-  .card-img-top:hover {
-    transform: scale(1.1);
-  }
-  .card-img-top img {
-    border: none;
-  }
+.card-img-top:hover {
+  transform: scale(1.1);
+}
 
-  
-  
+.card-img-top {
+  object-fit: cover;
+  width: 100%;
+  height: 200px; /* Sesuaikan tinggi gambar sesuai kebutuhan Anda */
+}
+
+.small-img {
+  width: 200px;
+  height: 300px;
+}
+
+.modal_test .modal-dialog {
+  max-width: 400px;
+}
+
+.modal_test .modal-content {
+  padding: 20px;
+}
+
+.modal_test .modal-body {
+  padding: 0;
+}
+
+.modal_test .modal-body img {
+  width: 100%;
+  height: auto;
+}
+
+.modal_test .modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: none;
+}
