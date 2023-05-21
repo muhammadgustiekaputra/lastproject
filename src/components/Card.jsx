@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { apiFood } from "../api/apiFood";
-import ModalCard from "./ModalCard";
 import { Button, Modal } from "react-bootstrap";
 
 function Card() {
@@ -67,9 +66,7 @@ function Card() {
     <div className="container">
       <div className="row row-cols-1 row-cols-md-4 g-12">
         {food.map((eachFood) => (
-          <div key={eachFood.id} className="col>
-
-          col">
+          <div key={eachFood.id} className="col">
             <div
               className="card h-100"
               onClick={() => handleShow(eachFood.id)}
@@ -136,7 +133,7 @@ function Card() {
                   Unlike
                 </Button>
               </Modal.Footer>
-            </Modal>{" "}
+            </Modal>
           </div>
         ))}
       </div>
@@ -145,4 +142,3 @@ function Card() {
 }
 
 export default Card;
-

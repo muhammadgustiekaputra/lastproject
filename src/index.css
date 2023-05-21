@@ -50,3 +50,7 @@ body {
   padding-top: 20px;
   border-top: none;
 }
+
+.navbar {
+  margin-bottom: 20px; 
+}

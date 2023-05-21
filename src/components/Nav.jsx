@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import { useFormik } from "formik";
-import React from "react";
-import { apiFood } from "../api/apiFood";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import { useFormik } from 'formik';
+import Button from 'react-bootstrap/Button';
+import { apiFood } from '../api/apiFood';
+import * as Yup from 'yup';
 
 function Nav() {
   const [modal, setModal] = useState(false);
-  const isLogin = JSON.parse(localStorage.getItem("profile"));
-  const [name, setName] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const isLogin = JSON.parse(localStorage.getItem('profile'));
+  const [name, setName] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showCreateFoodButton, setShowCreateFoodButton] = useState(false);
+
   const showModal = () => {
     setModal(true);
   };
@@ -22,23 +24,33 @@ function Nav() {
   };
 
   const handleLogOut = () => {
-    apiFood.get("/logout", {
-      headers: {
-        apiKey: "w05KkI9AWhKxzvPFtXotUva-",
-        Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pZnRhaGZhcmhhbkBnbWFpbC5jb20iLCJ1c2VySWQiOiJjYTIzZDdjYy02Njk1LTQzNGItODE2Yy03ZTlhNWMwNGMxNjQiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjE4NzUzMjF9.wV2OECzC25qNujtyb9YHyzYIbYEV-wud3TQsYv7oB4Q"}`,
-      },
-    });
-    localStorage.removeItem("profile");
-    localStorage.removeItem("token", token);
+    apiFood
+      .get('/logout', {
+        headers: {
+          apiKey: 'w05KkI9AWhKxzvPFtXotUva-',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        localStorage.removeItem('profile');
+        localStorage.removeItem('token');
+        alert('Log Out Berhasil');
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-    alert("Log Out Berhasil");
-    window.location.reload();
+  const handleCreateFood = () => {
+    console.log('Create Food');
+    // Lakukan aksi yang diperlukan saat tombol "Create Food" ditekan
   };
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup.string().required(),
@@ -47,25 +59,25 @@ function Nav() {
     onSubmit: (values) => {
       apiFood
         .post(
-          "/login",
+          '/login',
           {
             email: values.email,
             password: values.password,
           },
           {
             headers: {
-              apiKey: "w05KkI9AWhKxzvPFtXotUva-",
+              apiKey: 'w05KkI9AWhKxzvPFtXotUva-',
             },
           }
         )
         .then((response) => {
-          alert("Login sukses");
-          localStorage.setItem("profile", JSON.stringify(response.data));
+          alert('Login sukses');
+          localStorage.setItem('profile', JSON.stringify(response.data));
           const token = response.data.token;
           setToken(token);
-          localStorage.setItem("token", token);
+          localStorage.setItem('token', token);
+          setShowCreateFoodButton(true); // Menampilkan tombol "Create Food"
           window.location.reload();
-          console.log(response);
         })
         .catch((error) => {
           console.log(error);
@@ -74,16 +86,26 @@ function Nav() {
   });
 
   useEffect(() => {
-    const saveprofile = localStorage.getItem("profile");
+    const saveprofile = localStorage.getItem('profile');
     if (saveprofile) {
       const parsedprofile = JSON.parse(saveprofile);
       setName(parsedprofile.user.name);
+      setShowCreateFoodButton(true); // Menampilkan tombol "Create Food"
     }
   }, []);
 
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    console.log('Pencarian:', searchQuery);
+  };
+
   return (
     <>
-<nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+      <nav className="navbar navbar-expand-lg navbar-dark fixed-top margin-bottom: 20px; " style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -95,85 +117,98 @@ function Nav() {
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
-</button>
-<div className="collapse navbar-collapse" id="navbarSupportedContent">
-<ul className="navbar-nav me-auto mb-2 mb-lg-0">
-{isLogin ? (
-<li className="nav-item">
-<h1 onClick={handleLogOut} className="nav-link text-white">
-Logout
-</h1>
-</li>
-) : (
-<li className="nav-item">
-<h1 onClick={showModal} className="nav-link text-white">
-Login
-</h1>
-</li>
-)}
-<li className="nav-item">
-<Link to="/register" className="nav-link text-white">
-Register
-</Link>
-</li>
-</ul>
-<form className="d-flex" role="search">
-<input
-             className="form-control me-2"
-             type="search"
-             placeholder="Search"
-             aria-label="Search"
-           />
-<button className="btn btn-outline-light" type="submit">
-Search
-</button>
-</form>
-</div>
-</div>
-</nav>
-<Modal show={modal} onHide={closeModal}>
-    <Modal.Header closeButton>
-      <Modal.Title>Modal heading</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      <Form onSubmit={formik.handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            id="email"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-          />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              {isLogin ? (
+                <>
+                  <li className="nav-item">
+                    <h1 onClick={handleLogOut} className="nav-link text-white">
+                      Logout
+                    </h1>
+                  </li>
+                  {showCreateFoodButton && (
+                    <li className="nav-item">
+                      <Link to="/create-food" className="nav-link text-white">
+                        Create New Food
+                      </Link>
+                    </li>
+                  )}
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <h1 onClick={showModal} className="nav-link text-white">
+                      Login
+                    </h1>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/register" className="nav-link text-white">
+                      Register
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+            <form className="d-flex" role="search" onSubmit={handleSearch}>
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+              />
+              <button className="btn btn-outline-light" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <Modal show={modal} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                id="email"
+                name="email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            id="password"
-            name="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    </Modal.Body>
-  </Modal>
-</>
-);
+            <Form.Group className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                id="password"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
 }
 
 export default Nav;
