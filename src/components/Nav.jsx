@@ -129,7 +129,7 @@ function Nav() {
                   </li>
                   {showCreateFoodButton && (
                     <li className="nav-item">
-                      <Link to="/create-food" className="nav-link text-white">
+                      <Link to="/createnewfood" className="nav-link text-white">
                         Create New Food
                       </Link>
                     </li>

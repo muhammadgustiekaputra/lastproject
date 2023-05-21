@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import Intro from './components/Intro';
 import Register from './components/Register';
+import CreateNewFood from './components/CreateNewFood';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/intro" element={<Intro />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/createnewfood" element={<CreateNewFood />} />
+
       </Routes>
     </Router>
   );

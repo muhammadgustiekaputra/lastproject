@@ -5,14 +5,16 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 function CreateNewFood() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const history = useHistory();
+  const [ingredients, setIngredients] = useState([]);
+
+const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,14 +23,14 @@ function CreateNewFood() {
       name: name,
       description: description,
       imageUrl: imageUrl,
-      ingredients: ingredients,
+      ingredients: [ingredients],
     };
 
     try {
-      const response = await apiFood.post('/foods', newFood);
+      const response = await apiFood.post('/create-food', newFood);
       console.log('Food created:', response.data);
       // Lakukan sesuatu setelah food berhasil dibuat
-      history.push('/'); // Redirect ke halaman utama setelah berhasil membuat makanan
+      navigate("/")
     } catch (error) {
       console.error('Error creating food:', error);
       // Lakukan sesuatu jika terjadi kesalahan saat membuat food
